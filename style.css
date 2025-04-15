@@ -1,0 +1,60 @@
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 100% viewport height. it's mean 100% of screen */
+    height: 100vh;
+}
+
+.register-form {
+    width: 500px;
+    padding: 0px 20px 0px 20px;
+
+    .form {
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .flex {
+        display: flex;
+
+        label {
+            width: 100px;
+        }
+    }
+
+    .flex-name {
+        input {
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+
+    .gender-option {
+        margin-left: 0;
+    }
+
+    .gender-option + .gender-option {
+        margin-left: 20px;
+    }
+
+    .center {
+        display: block; /* Make it a block so margin auto works */
+        margin: auto; /* Top-bottom 20px, left-right auto = centered */
+    }
+
+    button {
+        padding: 5px 10px;
+    }
+}
+
