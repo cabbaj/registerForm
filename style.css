@@ -1,60 +1,78 @@
 body {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Tahoma;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* 100% viewport height. it's mean 100% of screen */
-    height: 100vh;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 100% viewport height. it's mean 100% of screen */
+  height: 100vh;
+  background-color: #333;
 }
 
 .register-form {
-    width: 500px;
-    padding: 0px 20px 0px 20px;
+  background-color: #f9f6ee;
+  border-radius: 8px;
+  width: 500px;
+  padding: 0px 20px 0px 20px;
 
-    .form {
-        margin-bottom: 10px;
+  textarea {
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+  }
+
+  .form {
+    margin: 10px 0px 10px 0px;
+  }
+
+  h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flex {
+    display: flex;
+
+    label {
+      width: 100px;
     }
+  }
 
-    h1 {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+  .flex-name {
+    input {
+      flex: 1;
+      width: 100%;
+      box-sizing: border-box;
     }
+  }
 
-    .flex {
-        display: flex;
+  .gender-option {
+    margin-left: 0;
+  }
 
-        label {
-            width: 100px;
-        }
-    }
+  .gender-option + .gender-option {
+    margin-left: 20px;
+  }
 
-    .flex-name {
-        input {
-            flex: 1;
-            width: 100%;
-            box-sizing: border-box;
-        }
-    }
+  button {
+    font-size: 16px;
+    background-color: #7b38d5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    padding: 10px 50px;
+    margin: 50px auto 10px auto;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
 
-    .gender-option {
-        margin-left: 0;
-    }
-
-    .gender-option + .gender-option {
-        margin-left: 20px;
-    }
-
-    .center {
-        display: block; /* Make it a block so margin auto works */
-        margin: auto; /* Top-bottom 20px, left-right auto = centered */
-    }
-
-    button {
-        padding: 5px 10px;
-    }
+  button:hover {
+    background-color: #6d38b2; /* Darker background on hover */
+    transform: scale(1.05);
+  }
 }
-
