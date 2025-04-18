@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="register-form">
-      <h1>REGISTER FORM</h1>
+      <h1 id="header">HOO?(WHO)</h1>
       <form>
         <div class="flex flex-name form">
           <label for="firstname">First Name</label>
@@ -42,25 +42,25 @@
         <div class="form">
           <label for="">Interests</label>
           <div>
-            <input type="checkbox" id="game" name="game" value="game" />
+            <input type="checkbox" id="game" name="interest" value="game" />
             <label for="game">Game</label>
           </div>
           <div>
-            <input type="checkbox" id="movie" name="movie" value="movie" />
+            <input type="checkbox" id="movie" name="interest" value="movie" />
             <label for="movie">Movie</label>
           </div>
           <div>
-            <input type="checkbox" id="coding" name="coding" value="coding" />
+            <input type="checkbox" id="coding" name="interest" value="coding" />
             <label for="coding">Coding</label>
           </div>
         </div>
         <div class="form">
-          <label for="description" >Description</label>
+          <label for="description">Description</label>
           <div class="form">
             <textarea name="description" id="description"></textarea>
           </div>
         </div>
-        <button type="submit">Submit</button>
+        <button type="button" onclick="submitForm()">Submit</button>
       </form>
     </div>
 
