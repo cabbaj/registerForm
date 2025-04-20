@@ -33,7 +33,7 @@ function submitForm() {
     firstname: firstNameInput.value,
     lastname: lastNameInput.value,
     age: ageInput.value,
-    genders: genderInput.value,
+    gender: genderInput.value,
     interests: interests,
     description: descriptionInput.value,
   };
