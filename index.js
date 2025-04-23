@@ -6,27 +6,12 @@ function submitForm() {
   let interestsInput = document.querySelectorAll("input[name=interest]:checked");
   let descriptionInput = document.getElementById("description");
 
-  // genders.forEach(function (g) {
-  //   if (g.checked) console.log(g.value);
-  // });
-
-  // loop every input in nodeList
-  // interests.forEach(function (i) {
-  //   if (i.checked) console.log(i.value);
-  // });
-
-  let interests = "";
-
-  interestsInput.forEach((interest, idx, array) => {
-    interests += `${interest.value}, `;
-    // console.log(`length= ${array.length}`);
-    // console.log(`index= ${idx}`);
-    // interests is string now ("a, b, c")
-    if (idx === array.length - 1) {
-      // -2 is mean remove the last 2 characters -> ", "
-      interests = interests.slice(0, -2);
-    }
-  });
+  // convert nodeList to array but it still nodeList (like a [input#game, input#movie])
+  const interests = Array.from(interestsInput)
+  // take a value each element in array
+    .map((el) => el.value)
+  // then join it
+    .join(", ");
 
   // this is json
   let userData = {
