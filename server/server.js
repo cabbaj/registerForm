@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const mysql = require("mysql2/promise");
 
 const port = 3000;
 
@@ -10,6 +11,26 @@ let counter = 1;
 
 // define the format from body request (client send)
 app.use(bodyParser.json());
+
+app.get("/db", async (req, res) => {
+  try {
+    const conn = await mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "",
+      database: "register_form",
+    });
+    // [] is take the first item in array
+    const [rows] = await conn.query("SELECT * FROM users");
+    await conn.end();
+
+    // choose the first array
+    res.json(rows);
+  } catch (error) {
+    console.log("error msg:", error.message);
+    res.status(666).json({ error: "error fetching data" });
+  }
+});
 
 // get all user
 app.get("/users", (req, res) => {
