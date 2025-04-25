@@ -2,8 +2,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mysql = require("mysql2/promise");
+const cors = require("cors");
 
 const port = 3000;
+
+// allow website can access this file (API)
+app.use(cors());
 
 // define the format from body request (client send)
 app.use(bodyParser.json());
@@ -37,7 +41,7 @@ app.get("/users", async (req, res) => {
     // choose the first array
     res.json(rows);
   } catch (error) {
-    console.log("error msg:", error.message);
+    console.log("error message:", error.message);
     res.status(666).json({ error: "error fetching data" });
   }
 });
@@ -47,62 +51,74 @@ app.get("/users/:id", async (req, res) => {
   try {
     const id = req.params.id;
 
-    // [] is take the first item in array
-    const [user] = await conn.query(`SELECT * FROM users WHERE id = ${id}`);
+    // [[]] for select only object
+    const [[user]] = await conn.query(`SELECT * FROM users WHERE id = ?`, id);
 
-    // choose the first array
-    res.json(user);
+    if (user) {
+      res.json(user);
+    }
+    throw new Error("can't find");
   } catch (error) {
     console.log("error msg:", error.message);
-    res.status(666).json({ error: "error fetching data" });
+    res.status(666).json({ error: error.message });
   }
 });
 
 // create user
 app.post("/user", async (req, res) => {
   try {
-    let user = req.body;
+    let data = req.body;
 
     // ? is for value of user
-    const data = await conn.query(`INSERT INTO users SET ?`, user);
+    await conn.query(`INSERT INTO users SET ?`, data);
 
     res.json({
       msg: "inserted",
     });
   } catch (error) {
-    res.json({
-      errorMsg: error.message,
+    console.log("error message:", error.message);
+    res.status(500).json({
+      msg: "something wrong",
     });
   }
-
 });
 
 // put for replace old data (that have data every field if not send data it will remove that field)
-app.put("/users/:id", (req, res) => {
-  let id = Number(req.params.id);
-  let updateUser = req.body;
+app.put("/users/:id", async (req, res) => {
+  try {
+    let data = req.body;
+    let id = req.params.id;
 
-  let user = users.find((user) => user.id === id);
+    // ? is for value of user
+    await conn.query(`UPDATE users SET ? WHERE id = ?`, [data, id]);
 
-  Object.assign(user, updateUser);
-
-  res.json({
-    msg: "updated",
-    data: updateUser,
-    id: user.id,
-  });
+    res.json({
+      msg: "updated",
+    });
+  } catch (error) {
+    console.log("error message:", error.message);
+    res.status(500).json({
+      msg: "something wrong",
+    });
+  }
 });
 
 // delete
-app.delete("/users/:id", (req, res) => {
-  let id = Number(req.params.id);
-  let selectIdx = users.findIndex((user) => user.id === id);
+app.delete("/users/:id", async (req, res) => {
+  try {
+    let id = req.params.id;
 
-  users.splice(selectIdx, 1);
+    await conn.query("DELETE FROM users WHERE id = ?", id);
 
-  res.json({
-    msg: "deleted",
-  });
+    res.json({
+      msg: "deleted",
+    });
+  } catch (error) {
+    console.log("error message:", error.message);
+    res.status(500).json({
+      msg: "something wrong",
+    });
+  }
 });
 
 // connect the db and run the server
