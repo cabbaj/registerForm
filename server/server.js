@@ -5,24 +5,34 @@ const mysql = require("mysql2/promise");
 
 const port = 3000;
 
-// for test
-let users = [];
-let counter = 1;
-
 // define the format from body request (client send)
 app.use(bodyParser.json());
 
-app.get("/db", async (req, res) => {
+let conn = null;
+
+// call this function to create connection to db at start up the server
+const initMysql = async () => {
   try {
-    const conn = await mysql.createConnection({
+    conn = await mysql.createPool({
       host: "localhost",
       user: "root",
       password: "",
       database: "register_form",
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0,
     });
+    console.log("MySQL pool created ✅");
+  } catch (error) {
+    console.error("MySQL connection failed ❌", error.message);
+  }
+};
+
+// get all user
+app.get("/users", async (req, res) => {
+  try {
     // [] is take the first item in array
     const [rows] = await conn.query("SELECT * FROM users");
-    await conn.end();
 
     // choose the first array
     res.json(rows);
@@ -32,36 +42,38 @@ app.get("/db", async (req, res) => {
   }
 });
 
-// get all user
-app.get("/users", (req, res) => {
-  const fliterUsers = users.map((user) => {
-    return { id: user.id, firstname: user.firstname, lastname: user.lastname };
-  });
-
-  res.json(fliterUsers);
-});
-
 // get user by id
-app.get("/users/:id", (req, res) => {
-  let id = Number(req.params.id);
+app.get("/users/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
 
-  // return object of user
-  let user = users.find((user) => user.id === id);
+    // [] is take the first item in array
+    const [user] = await conn.query(`SELECT * FROM users WHERE id = ${id}`);
 
-  res.json(user);
+    // choose the first array
+    res.json(user);
+  } catch (error) {
+    console.log("error msg:", error.message);
+    res.status(666).json({ error: "error fetching data" });
+  }
 });
 
 // create user
-app.post("/user", (req, res) => {
-  let user = req.body;
-  user.id = counter;
-  counter += 1;
+app.post("/user", async (req, res) => {
+  try {
+    let user = req.body;
 
-  users.push(user);
-  res.json({
-    msg: "added",
-    user: user,
-  });
+    // ? is for value of user
+    const data = await conn.query(`INSERT INTO users SET ?`, user);
+
+    res.json({
+      msg: "inserted",
+    });
+  } catch (error) {
+    res.json({
+      errorMsg: error.message,
+    });
+  }
 });
 
 // put for replace old data (that have data every field if not send data it will remove that field)
@@ -92,7 +104,17 @@ app.delete("/users/:id", (req, res) => {
   });
 });
 
+// connect the db and run the server
+(async () => {
+  await initMysql(); // Initialize DB before starting the server
+
+  app.listen(port, () => {
+    console.log(`Server running on port ${port} 🚀`);
+  });
+})();
+
 // connect to the server
-app.listen(port, () => {
-  console.log("server is running on port", port);
-});
+// app.listen(port, async () => {
+//   await initMysql();
+//   console.log("server is running on port", port);
+// });
