@@ -65,7 +65,7 @@ app.get("/users/:id", async (req, res) => {
 });
 
 // create user
-app.post("/user", async (req, res) => {
+app.post("/users", async (req, res) => {
   try {
     let data = req.body;
 
