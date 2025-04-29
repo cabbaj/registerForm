@@ -1,32 +1,3 @@
-const validateData = (userData) => {
-  const errors = [];
-
-  if (!userData.firstname) {
-    errors.push("put your First Name");
-  }
-
-  if (!userData.lastname) {
-    errors.push("put your Last Name");
-  }
-
-  if (!userData.age) {
-    errors.push("put your Age");
-  }
-
-  if (!userData.gender) {
-    errors.push("put your Gender");
-  }
-
-  if (!userData.interests) {
-    errors.push("put your Interests");
-  }
-
-  if (!userData.description) {
-    errors.push("put your Description");
-  }
-  return errors;
-};
-
 const submitForm = async () => {
   try {
     let firstNameInput = document.getElementById("firstname");
@@ -57,16 +28,6 @@ const submitForm = async () => {
 
     console.log(userData);
 
-    // validation data
-    const errors = validateData(userData);
-
-    if (errors.length > 0) {
-      throw {
-        msg: "Incomplete information",
-        errors: errors,
-      };
-    }
-
     // use axios to send data
     // use await bc axios return promise
     // "url" is endpoint will send it to server.js
@@ -78,13 +39,17 @@ const submitForm = async () => {
     msg.innerText = "The Data has been Inserted";
     msg.className = "msg success";
   } catch (error) {
-    console.log(error.msg);
-    console.log(error.errors);
+    // .response bc axios send it from back-end through response
+    if (error.response) {
+      console.error(error.response);
 
-    // use reponse bc res is not defined in catch
-    // if (error.response) {
-    //   console.error(error.response.data);
-    // }
+      // put error in this to receive from back-end
+      error.msg = error.response.data.msg;
+      error.errors = error.response.data.error;
+    }
+
+    console.log("errors msg:", error.msg);
+    console.log("error:", error.errors);
 
     // console.log(error);
 
