@@ -32,6 +32,36 @@ const initMysql = async () => {
   }
 };
 
+// error check function
+const validateData = (userData) => {
+  const errors = [];
+
+  if (!userData.firstname) {
+    errors.push("put your First Name");
+  }
+
+  if (!userData.lastname) {
+    errors.push("put your Last Name");
+  }
+
+  if (!userData.age) {
+    errors.push("put your Age");
+  }
+
+  if (!userData.gender) {
+    errors.push("put your Gender");
+  }
+
+  if (!userData.interests) {
+    errors.push("put your Interests");
+  }
+
+  if (!userData.description) {
+    errors.push("put your Description");
+  }
+  return errors;
+};
+
 // get all user
 app.get("/users", async (req, res) => {
   try {
@@ -68,6 +98,15 @@ app.get("/users/:id", async (req, res) => {
 app.post("/users", async (req, res) => {
   try {
     let data = req.body;
+    const errors = validateData(data);
+
+    // check if it have error
+    if (errors.length > 0) {
+      throw {
+        msg: "Incomplete information",
+        errors: errors,
+      };
+    }
 
     // ? is for value of user
     await conn.query(`INSERT INTO users SET ?`, data);
@@ -76,9 +115,16 @@ app.post("/users", async (req, res) => {
       msg: "inserted",
     });
   } catch (error) {
-    console.log("error message:", error.message);
-    res.status(500).json({
-      msg: "something wrong",
+    // define msg, errors for store value from throw error
+    const errorMsg = error.message || "something wrong";
+    const errors = error.errors || [];
+
+    console.log("error message:", errorMsg);
+
+    // send this to front-end
+    res.status(666).json({
+      msg: errorMsg,
+      error: errors,
     });
   }
 });
