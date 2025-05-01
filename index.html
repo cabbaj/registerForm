@@ -1,72 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="register-form">
-      <h1 id="header">Register Form</h1>
-      <form>
-        <div class="flex flex-name form">
-          <label for="firstname">First Name</label>
-          <!-- name attribute for key when we send the data (like a firstname=pure) -->
-          <!-- id attribute for label (for attribute) -->
-          <input type="text" id="firstname" name="firstname" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="register-form">
+            <a id="menu" href="user.html">User management</a>
+            <h1 id="header">Register Form</h1>
+            <form>
+                <div class="flex flex-name form">
+                    <label for="firstname">First Name</label>
+                    <!-- name attribute for key when we send the data (like a firstname=pure) -->
+                    <!-- id attribute for label (for attribute) -->
+                    <input type="text" id="firstname" name="firstname" />
+                </div>
+                <div class="flex flex-name form">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" id="lastname" name="lastname" />
+                </div>
+                <div class="flex form">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" max="100" min="1" />
+                </div>
+                <div class="flex form">
+                    <label for="">Gender</label>
+                    <span class="gender-option">
+                        <input type="radio" id="male" name="gender" value="male" />
+                        <label for="male">Male</label>
+                    </span>
+                    <span class="gender-option">
+                        <input type="radio" id="female" name="gender" value="female" />
+                        <label for="female">Female</label>
+                    </span>
+                    <span class="gender-option">
+                        <input type="radio" id="other" name="gender" value="other" />
+                        <label for="other">Other</label>
+                    </span>
+                </div>
+                <div class="form">
+                    <label for="">Interests</label>
+                    <div>
+                        <input type="checkbox" id="game" name="interest" value="game" />
+                        <label for="game">Game</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="movie" name="interest" value="movie" />
+                        <label for="movie">Movie</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="coding" name="interest" value="coding" />
+                        <label for="coding">Coding</label>
+                    </div>
+                </div>
+                <div class="form">
+                    <label for="description">Description</label>
+                    <div class="form">
+                        <textarea name="description" id="description"></textarea>
+                    </div>
+                </div>
+                <div id="msg" class="msg"></div>
+                <button type="button" onclick="submitForm()">Submit</button>
+            </form>
         </div>
-        <div class="flex flex-name form">
-          <label for="lastname">Last Name</label>
-          <input type="text" id="lastname" name="lastname" />
-        </div>
-        <div class="flex form">
-          <label for="age">Age</label>
-          <input type="number" id="age" name="age" max="100" min="1" />
-        </div>
-        <div class="flex form">
-          <label for="">Gender</label>
-          <span class="gender-option">
-            <input type="radio" id="male" name="gender" value="male" />
-            <label for="male">Male</label>
-          </span>
-          <span class="gender-option">
-            <input type="radio" id="female" name="gender" value="female" />
-            <label for="female">Female</label>
-          </span>
-          <span class="gender-option">
-            <input type="radio" id="other" name="gender" value="other" />
-            <label for="other">Other</label>
-          </span>
-        </div>
-        <div class="form">
-          <label for="">Interests</label>
-          <div>
-            <input type="checkbox" id="game" name="interest" value="game" />
-            <label for="game">Game</label>
-          </div>
-          <div>
-            <input type="checkbox" id="movie" name="interest" value="movie" />
-            <label for="movie">Movie</label>
-          </div>
-          <div>
-            <input type="checkbox" id="coding" name="interest" value="coding" />
-            <label for="coding">Coding</label>
-          </div>
-        </div>
-        <div class="form">
-          <label for="description">Description</label>
-          <div class="form">
-            <textarea name="description" id="description"></textarea>
-          </div>
-        </div>
-        <div id="msg" class="msg"></div>
-        <button type="button" onclick="submitForm()">Submit</button>
-      </form>
-    </div>
 
-    <!-- axios for make HTTP request from browser (get, post, put, delete) -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="index.js"></script>
-  </body>
+        <!-- axios for make HTTP request from browser (get, post, put, delete) -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="index.js"></script>
+    </body>
 </html>
