@@ -32,7 +32,7 @@ const initMysql = async () => {
     }
 };
 
-// error check function
+// error check function if value is null
 const validateData = (userData) => {
     const errors = [];
 
