@@ -167,6 +167,9 @@ app.delete("/users/:id", async (req, res) => {
     }
 });
 
+app.get("/", (req, res) => {
+ res.render("index.html");   
+});
 // connect the db and run the server
 (async () => {
     await initMysql(); // Initialize DB before starting the server
