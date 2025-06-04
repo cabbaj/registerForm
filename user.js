@@ -1,47 +1,50 @@
 const url = "http://localhost:3000";
 
 window.onload = async () => {
-    await loadData();
+    await refreshData();
+    console.log("loaded");
 };
 
-const loadData = async () => {
+const refreshData = async () => {
     const res = await axios.get(`${url}/users`);
     let users = res.data;
 
-    console.log(res.data);
-
+    // create user list and button
     const userContainer = document.getElementById("user");
 
     // create list of user and button for edit, delete
     // data-id(data-* * is for store what data do u want to) is property for store value of user's id
     let userList = "<div>";
-    users.map((user) => {
+    users.forEach((user) => {
         userList += `<div>
         ${user.id} ${user.firstname} ${user.lastname} 
-        <button>Edit</button>
+        <a href="index.html?id=${user.id}"><button>Edit</button></a>
         <button class="deleteBtn" data-id="${user.id}">Delete</button>
         </div>`;
     });
     userList += "</div>";
-
     userContainer.innerHTML = userList;
 
+    // add event listener to delete button
     const deleteBtn = document.getElementsByClassName("deleteBtn");
 
-    // check clicked from button
     for (let i = 0; i < deleteBtn.length; i++) {
         deleteBtn[i].addEventListener("click", async (event) => {
-            // target is select itself that have a click event
             const id = event.target.dataset.id;
+
+            // prevent rapid click on button
+            event.target.disabled = true;
+
             try {
                 await axios.delete(`${url}/users/${id}`);
 
-                // call it again for refresh web page
-                loadData();
+                // refresh page after delete
+                await refreshData();
+
+                console.log("delete success");
             } catch (error) {
                 console.log("error:", error);
             }
         });
     }
-
-}
+};
